@@ -1,0 +1,5 @@
+{
+  "name": "AquaRoute - Smart Water Tanker Management",
+  "description": "A comprehensive management system for water tankers featuring real-time tracking, role-based dashboards, and automated booking for residents, vendors, and admins.",
+  "requestFramePermissions": ["geolocation"]
+}

@@ -1,0 +1,99 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "name": { "type": "string", "description": "Full name" },
+        "email": { "type": "string", "format": "email", "description": "User email" },
+        "role": { "type": "string", "enum": ["user", "vendor", "admin"], "description": "User role" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account creation timestamp" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Vendor": {
+      "title": "Vendor",
+      "description": "Vendor business details",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "User UID" },
+        "businessName": { "type": "string", "description": "Business name" },
+        "gstNumber": { "type": "string", "description": "GST registration number" },
+        "isApproved": { "type": "boolean", "description": "Approval status by admin" },
+        "rating": { "type": "number", "description": "Average rating" }
+      },
+      "required": ["userId", "businessName"]
+    },
+    "Tanker": {
+      "title": "Tanker",
+      "description": "Water tanker details",
+      "type": "object",
+      "properties": {
+        "vendorId": { "type": "string", "description": "Vendor UID" },
+        "numberPlate": { "type": "string", "description": "Vehicle registration number" },
+        "capacityLiters": { "type": "integer", "description": "Water capacity in liters" },
+        "status": { "type": "string", "enum": ["available", "busy", "maintenance", "inactive"] },
+        "currentLat": { "type": "number" },
+        "currentLon": { "type": "number" },
+        "driverName": { "type": "string" },
+        "driverPhone": { "type": "string" }
+      },
+      "required": ["vendorId", "numberPlate", "capacityLiters"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Water tanker booking details",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Customer UID" },
+        "vendorId": { "type": "string", "description": "Assigned vendor UID" },
+        "tankerId": { "type": "string", "description": "Assigned tanker ID" },
+        "address": { "type": "string" },
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" },
+        "quantityLiters": { "type": "integer" },
+        "price": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "assigned", "on_the_way", "delivered", "cancelled"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "address", "quantityLiters", "status"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "User notification",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "read": { "type": "boolean" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "message", "read"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/vendors/{vendorId}": {
+      "schema": "Vendor",
+      "description": "Vendor details"
+    },
+    "/tankers/{tankerId}": {
+      "schema": "Tanker",
+      "description": "Tanker fleet"
+    },
+    "/bookings/{bookingId}": {
+      "schema": "Booking",
+      "description": "Service bookings"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "User notifications"
+    }
+  }
+}
